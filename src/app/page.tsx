@@ -100,6 +100,7 @@ export default function Home() {
             <a href="#" className="hover:underline">Contact</a>
             <a href="#" className="hover:underline">Billing</a>
             <a href="#" className="hover:underline">Report Abuse</a>
+            <a href="#" className="hover:underline">Test Visual Local</a>
           </div>
         </div>
       </footer>
