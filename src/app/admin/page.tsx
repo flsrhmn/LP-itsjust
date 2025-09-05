@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 
 interface EmailEntry {
   id: number;
@@ -52,9 +52,9 @@ export default function AdminPage() {
     URL.revokeObjectURL(url);
   };
 
-  useEffect(() => {
-    fetchEmails();
-  }, []);
+  // useEffect(() => {
+  //   fetchEmails();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

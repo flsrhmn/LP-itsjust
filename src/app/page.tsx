@@ -59,7 +59,7 @@ export default function Home() {
       } else {
         setError('Failed to submit. Please try again.');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     }
   };
@@ -121,7 +121,7 @@ export default function Home() {
       <footer className="text-white p-4 md:p-6 text-xs">
         <div className="max-w-4xl mx-auto">
           <p className="mb-4">
-            It's Just Sex is a private portal for real people who want exactly that no drama, no games, just honest connections, sexting, and casual fun 
+            Its Just Sex is a private portal for real people who want exactly that no drama, no games, just honest connections, sexting, and casual fun 
             with locals who are on the same page. There are no pornstars, escorts, or scammers allowed only everyday people looking to explore their sexuality in a safe, 
             discreet, and exciting space. Drop your email above to see if you qualify for free membership and get instant access to one of the most trusted hookup communities online.
           </p>
