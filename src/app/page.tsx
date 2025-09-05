@@ -97,15 +97,9 @@ export default function Home() {
       <footer className="bg-black text-white p-4 md:p-6 text-xs">
         <div className="max-w-4xl mx-auto">
           <p className="mb-4">
-            ItsJustSex.org is where millennials come to trade naked photos and hookup online. 
-            We are a private community established for those how enjoy connecting with other locals 
-            to exchange sext messages. ItsJustSex.org IS NOT FOR Pornstars, Escorts, or internet 
-            scammers who try to exploit the sexual desires of others. ItsJustSex is for ordinary 
-            everyday people who want to explore their sexuality. Whether you are looking to exchange 
-            sext messages with an older woman, or just want to meet locals for hookups, ItsJustSex 
-            makes it happen! put your email above to see if you qualify to join. Once qualified, will 
-            be given a free membership to one of the best sexting and hookup sites that has been hand 
-            picked for its quality and high success rate.
+            It’s Just Sex is a private portal for real people who want exactly that no drama, no games, just honest connections, sexting, and casual fun 
+            with locals who are on the same page. There are no pornstars, escorts, or scammers allowed only everyday people looking to explore their sexuality in a safe, 
+            discreet, and exciting space. Drop your email above to see if you qualify for free membership and get instant access to one of the most trusted hookup communities online.
           </p>
           
           <p className="mb-4">
@@ -113,13 +107,6 @@ export default function Home() {
             All members and persons appearing on this site have contractually represented to us that they 
             are 18 years of age or older. 18 U.S.C. 2257 Record Keeping Requirements Compliance Statement.
           </p>
-          
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-            <a href="https://www.datinghelp.net/" className="hover:underline">Site Issue</a>
-            <a href="https://www.datinghelp.net/" className="hover:underline">Contact</a>
-            <a href="https://www.datinghelp.net/" className="hover:underline">Billing</a>
-            <a href="https://www.datinghelp.net/" className="hover:underline">Report Abuse</a>
-          </div>
         </div>
       </footer>
     </main>
