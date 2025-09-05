@@ -2,16 +2,29 @@
 
 import { useState, useEffect } from 'react';
 
+
 export default function Home() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState('');
 
-  // Check if device is mobile
+  // Check if device is mobile and set appropriate background
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      
+      // Set background image based on device type
+      if (mobile) {
+        // Randomly select between img-its1.jpg to img-its4.jpg for mobile
+        const randomNum = Math.floor(Math.random() * 4) + 1;
+        setBackgroundImage(`/img-its${randomNum}.jpg`);
+      } else {
+        // Use img-desk.jpg for desktop
+        setBackgroundImage('/img-desk.jpg');
+      }
     };
     
     checkIfMobile();
@@ -52,10 +65,21 @@ export default function Home() {
   };
 
   return (
-    <main className={`min-h-screen flex flex-col bg-gradient-to-b from-pink-500 to-red-700 ${isMobile ? 'backdrop-blur-sm' : ''}`}>
-      {/* Main content area */}
-      <div className="flex-1 flex items-center p-4 md:p-8">
-        <div className="container mx-auto flex justify-start md:justify-center">
+    <main className={`min-h-screen flex flex-col bg-gradient-to-b from-red-700 to-pink-500 ${isMobile ? 'backdrop-blur-sm' : ''}`}>
+      {/* Main content area with conditional background image */}
+      <div 
+        className="flex-1 flex items-center p-4 md:p-8 relative"
+        style={{
+          backgroundImage: backgroundImage ? `url('${backgroundImage}')` : 'none',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        {/* Overlay for better text readability */}
+        {/* <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
+        
+        <div className="container mx-auto flex justify-start md:justify-center relative z-10">
           <div className="bg-white rounded-lg shadow-xl p-6 md:p-8 max-w-md w-full md:ml-16 lg:ml-24 xl:ml-32">
             <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left text-gray-800 mb-4 md:mb-6">
               Meet divorcees, single moms, and sexy cougars looking for a young stud!
@@ -94,10 +118,10 @@ export default function Home() {
       </div>
       
       {/* Footer */}
-      <footer className="bg-black text-white p-4 md:p-6 text-xs">
+      <footer className="text-white p-4 md:p-6 text-xs">
         <div className="max-w-4xl mx-auto">
           <p className="mb-4">
-            It’s Just Sex is a private portal for real people who want exactly that no drama, no games, just honest connections, sexting, and casual fun 
+            It's Just Sex is a private portal for real people who want exactly that no drama, no games, just honest connections, sexting, and casual fun 
             with locals who are on the same page. There are no pornstars, escorts, or scammers allowed only everyday people looking to explore their sexuality in a safe, 
             discreet, and exciting space. Drop your email above to see if you qualify for free membership and get instant access to one of the most trusted hookup communities online.
           </p>
