@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 
-
 export default function Home() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState<{city: string; count: number} | null>(null);
 
   // Check if device is mobile and set appropriate background
   useEffect(() => {
@@ -44,7 +45,22 @@ export default function Home() {
       return;
     }
     
+    setIsLoading(true);
+    setError('');
+    
     try {
+      // Simulate a 3-second process (without saving to database)
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      
+      // For testing: Skip the API call and use mock data
+      setSubmitted(true);
+      setUserData({
+        city: 'your city', // Mock city for testing
+        count: Math.floor(Math.random() * 5) + 6 // Random between 6-10
+      });
+      
+      // COMMENTED OUT: The actual API call to save email
+      /*
       const response = await fetch('/api/submit-email', {
         method: 'POST',
         headers: {
@@ -52,15 +68,23 @@ export default function Home() {
         },
         body: JSON.stringify({ email }),
       });
+
+      const data = await response.json();
       
       if (response.ok) {
         setSubmitted(true);
-        setError('');
+        setUserData({
+          city: data.city || 'Your City',
+          count: data.count || Math.floor(Math.random() * 5) + 6
+        });
       } else {
         setError('Failed to submit. Please try again.');
       }
+      */
     } catch {
       setError('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,41 +101,90 @@ export default function Home() {
         }}
       >
         {/* Overlay for better text readability */}
-        {/* <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
+        <div className="absolute inset-0 bg-opacity-40"></div>
         
         <div className="container mx-auto flex justify-start md:justify-center relative z-10">
-          <div className="bg-white rounded-lg shadow-xl p-6 md:p-8 max-w-md w-full md:ml-16 lg:ml-24 xl:ml-32">
-            <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left text-gray-800 mb-4 md:mb-6">
-              Meet divorcees, single moms, and sexy cougars looking for a young stud!
-            </h1>
-            <p className="text-gray-600 text-center md:text-left mb-4 md:mb-6">
-              Enter your email below to create your free, private account.
-            </p>
-            
-            {submitted ? (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                Thank you! Check your email to complete registration.
+          <div className="bg-pink-500/30 rounded-lg shadow-xl p-6 md:p-8 max-w-md w-full md:ml-16 lg:ml-24 xl:ml-32 backdrop-blur-sm">
+            {isLoading ? (
+              // Loading animation
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                <p className="text-white">Locating Online Users Near You</p>
+                <p className="text-sm text-white mt-2">This may take a few seconds</p>
+              </div>
+            ) : submitted && userData ? (
+              // Success screen
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-green-800 mb-6">CONGRATULATIONS!</h2>
+                
+                <div className="space-y-3 text-left mb-6">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span className="text-white">Your email is eligible for a free account.</span>
+                  </div>
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span className="text-white">Your location is confirmed.</span>
+                  </div>
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span className="text-white">We found {userData.count} users online near {userData.city} available.</span>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => {
+                    // Redirect to Google.com for testing
+                    window.location.href = 'https://google.com';
+                  }}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105"
+                >
+                  Continue
+                </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    required
-                  />
-                  {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105"
-                >
-                  Get Started
-                </button>
-              </form>
+              // Initial form
+              <>
+                <h1 className="text-white text-2xl md:text-3xl font-bold text-center md:text-left mb-4 md:mb-6">
+                  Meet divorcees, single moms, and sexy cougars looking for a young stud!
+                </h1>
+                <p className="text-white text-center md:text-left mb-4 md:mb-6">
+                  Enter your email below to create your free, private account.
+                </p>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="text-white w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      required
+                      disabled={isLoading}
+                    />
+                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? 'Processing...' : 'Get Started'}
+                  </button>
+                </form>
+              </>
             )}
           </div>
         </div>
