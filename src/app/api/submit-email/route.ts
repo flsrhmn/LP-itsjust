@@ -15,7 +15,7 @@ async function connectToDatabase() {
 async function getCityFromIP(request: NextRequest): Promise<string> {
   try {
     // Get client IP address
-    let ip = request.ip || request.headers.get('x-real-ip');
+    let ip = request.headers.get('x-real-ip');
     const forwardedFor = request.headers.get('x-forwarded-for');
     
     if (!ip && forwardedFor) {
