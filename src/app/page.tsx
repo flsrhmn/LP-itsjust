@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -104,7 +105,27 @@ export default function Home() {
         <div className="absolute inset-0 bg-opacity-40"></div>
         
         <div className="container mx-auto flex justify-start md:justify-center relative z-10">
-          <div className="bg-pink-500/30 rounded-lg shadow-xl p-6 md:p-8 max-w-md w-full md:ml-16 lg:ml-24 xl:ml-32 backdrop-blur-sm">
+          <div className="bg-blue-500/10 rounded-lg shadow-xl p-6 md:p-8 max-w-md w-full md:ml-16 lg:ml-24 xl:ml-32 backdrop-blur-sm">
+          {/* Logo Section - Centered at the top */}
+            <div className="flex justify-center mb-6">
+              {isMobile ? (
+                <Image 
+                  src="/logo-mob.png" 
+                  alt="Logo" 
+                  width={220} 
+                  height={60} 
+                  className="object-contain"
+                />
+              ) : (
+                <Image 
+                  src="/logo-desk.png" 
+                  alt="Logo" 
+                  width={550} 
+                  height={105} 
+                  className="object-contain"
+                />
+              )}
+            </div>
             {isLoading ? (
               // Loading animation
               <div className="text-center py-8">
