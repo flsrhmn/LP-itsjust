@@ -178,7 +178,7 @@ export default function Home() {
               // Initial form
               <>
                 <h1 className="text-white text-2xl md:text-3xl font-bold text-center md:text-left mb-4 md:mb-6">
-                  It's not love, it's just sex.
+                  It&rsquo;s not love, it&rsquo;s just sex.
                 </h1>
                 <h2 className="text-white text-2xl md:text-xl text-center md:text-left mb-4 md:mb-6">
                   Confident women divorcees, single moms, and sexy cougars want fresh energy. Not everyone gets in. Enter your email to see if you qualify.
