@@ -178,8 +178,11 @@ export default function Home() {
               // Initial form
               <>
                 <h1 className="text-white text-2xl md:text-3xl font-bold text-center md:text-left mb-4 md:mb-6">
-                  Meet divorcees, single moms, and sexy cougars looking for a young stud!
+                  It's not love, it's just sex.
                 </h1>
+                <h2 className="text-white text-2xl md:text-xl text-center md:text-left mb-4 md:mb-6">
+                  Confident women divorcees, single moms, and sexy cougars want fresh energy. Not everyone gets in. Enter your email to see if you qualify.
+                </h2>
                 <p className="text-white text-center md:text-left mb-4 md:mb-6">
                   Enter your email below to create your free, private account.
                 </p>

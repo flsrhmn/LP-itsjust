@@ -177,11 +177,14 @@ export default function Home() {
             ) : (
               // Initial form
               <>
-                <h1 className="text-white text-2xl md:text-3xl font-bold text-center md:text-left mb-4 md:mb-6">
-                  Meet divorcees, single moms, and sexy cougars looking for a young stud!
+                <h1 className="text-white text-3xl md:text-2xl font-bold text-center md:text-left mb-4 md:mb-6">
+                  Exclusive access. Zero drama.
                 </h1>
+                <h2 className="text-white text-2xl md:text-xl text-center md:text-left mb-4 md:mb-6">
+                  Meet mature women who know exactly what they want. No games, no waiting. Membership is limited.
+                </h2>
                 <p className="text-white text-center md:text-left mb-4 md:mb-6">
-                  Enter your email below to create your free, private account.
+                  Enter your email to verify your spot today.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
