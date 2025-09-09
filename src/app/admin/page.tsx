@@ -5,6 +5,7 @@ import { useState} from 'react';
 interface EmailEntry {
   id: number;
   email: string;
+  country: string;
   created_at: string;
 }
 
@@ -37,8 +38,8 @@ export default function AdminPage() {
 
   const exportCSV = () => {
     const csvContent = [
-      ['ID', 'Email', 'Date Added'],
-      ...emails.map(email => [email.id, email.email, email.created_at])
+      ['ID', 'Email', 'Country', 'Date Added'],
+      ...emails.map(email => [email.id, email.email, email.country, email.created_at])
     ].map(row => row.join(',')).join('\n');
     
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -110,6 +111,7 @@ export default function AdminPage() {
                   <tr className="bg-gray-100">
                     <th className="border border-gray-300 px-4 py-2">ID</th>
                     <th className="border border-gray-300 px-4 py-2">Email</th>
+                    <th className="border border-gray-300 px-4 py-2">Country</th>
                     <th className="border border-gray-300 px-4 py-2">Date Added</th>
                   </tr>
                 </thead>
@@ -118,6 +120,7 @@ export default function AdminPage() {
                     <tr key={email.id}>
                       <td className="border border-gray-300 px-4 py-2">{email.id}</td>
                       <td className="border border-gray-300 px-4 py-2">{email.email}</td>
+                      <td className="border border-gray-300 px-4 py-2">{email.country}</td>
                       <td className="border border-gray-300 px-4 py-2">
                         {new Date(email.created_at).toLocaleString()}
                       </td>
