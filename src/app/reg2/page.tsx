@@ -167,7 +167,7 @@ export default function Home() {
                 <button
                   onClick={() => {
                     // Redirect to Google.com for testing
-                    window.location.href = 'https://google.com';
+                    window.location.href = 'https://push.mobirealm.com/click';
                   }}
                   className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105"
                 >
