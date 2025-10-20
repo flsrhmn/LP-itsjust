@@ -184,7 +184,7 @@ export default function Home() {
                   Join thousands connecting with wild, playful women in their area. Enjoy private chats, easy meetups, and zero drama.
                 </h2>
                 <p className="text-white text-center md:text-left mb-4 md:mb-6">
-                  
+                  Enter your email to check availability and explore wild connections in your city.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">

@@ -24,7 +24,7 @@ async function connectToDatabase() {
 async function getCountryFromIP(request: NextRequest): Promise<string> {
   try {
     // Get client IP address
-    let ip = request.ip || request.headers.get('x-real-ip');
+    let ip = request.headers.get('x-real-ip');
     const forwardedFor = request.headers.get('x-forwarded-for');
     
     if (!ip && forwardedFor) {
@@ -43,7 +43,7 @@ async function getCountryFromIP(request: NextRequest): Promise<string> {
         const country = await response.text();
         return country || 'Unknown';
       }
-    } catch (error) {
+    } catch {
       console.log('IPAPI.co failed, trying ipinfo.io');
     }
 
@@ -54,7 +54,7 @@ async function getCountryFromIP(request: NextRequest): Promise<string> {
         const data = await response.json();
         return data.country || 'Unknown';
       }
-    } catch (error) {
+    } catch {
       console.log('ipinfo.io also failed');
     }
 
@@ -101,11 +101,11 @@ export async function POST(request: NextRequest) {
         message: 'Email saved successfully',
         country 
       });
-    } catch (dbError: any) {
+    } catch (dbError: unknown) {
       console.error('Database error:', dbError);
       
       // Handle duplicate email error
-      if (dbError.code === 'ER_DUP_ENTRY') {
+      if (dbError instanceof Error && 'code' in dbError && dbError.code === 'ER_DUP_ENTRY') {
         return NextResponse.json(
           { error: 'Email already exists' },
           { status: 409 }
