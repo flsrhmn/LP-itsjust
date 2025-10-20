@@ -181,10 +181,10 @@ export default function Home() {
                   Ready for no-strings fun?
                 </h1>
                 <h2 className="text-white text-2xl md:text-xl text-center md:text-left mb-4 md:mb-6">
-                  Divorcees, single moms, and wild cougars are searching for a young stud right now. Spots are limited - don&rsquo;t miss out!
+                  Find Naughty Singles Ready for Fun Nearby!
                 </h2>
                 <p className="text-white text-center md:text-left mb-4 md:mb-6">
-                  Enter your email below to check if you&rsquo;re eligible
+                  Enter your email to check availability and start matching with local singles now.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">

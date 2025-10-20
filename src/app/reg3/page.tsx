@@ -181,10 +181,10 @@ export default function Home() {
                   Exclusive access. Zero drama.
                 </h1>
                 <h2 className="text-white text-2xl md:text-xl text-center md:text-left mb-4 md:mb-6">
-                  Meet mature women who know exactly what they want. No games, no waiting. Membership is limited.
+                  Single women in your city are waiting to unleash their naughty side. Our site makes it simple: browse, match, and meet without hassle.
                 </h2>
-                <p className="text-white text-center md:text-left mb-4 md:mb-6">
-                  Enter your email to verify your spot today.
+                <p className="text-white text-center md:text-left mb-4 md:mb-6" align="justify">
+                  Enter your email to check availability and see who's nearby.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">

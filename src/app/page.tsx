@@ -41,7 +41,10 @@ export default function Home() {
     e.preventDefault();
     
     // Basic email validation
-    if (!email || !email.includes('@')) {
+    if (
+      !email ||
+      !['@gmail', '@yahoo', '@outlook', '@hotmail'].some(domain => email.includes(domain))
+    ) {
       setError('Please enter a valid email address');
       return;
     }
@@ -62,7 +65,7 @@ export default function Home() {
       
       // COMMENTED OUT: The actual API call to save email
       
-      const response = await fetch('/api/submit-email', {
+      const response = await fetch('/api/submit-emails', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,10 +181,10 @@ export default function Home() {
               // Initial form
               <>
                 <h1 className="text-white text-2xl md:text-3xl font-bold text-center md:text-left mb-4 md:mb-6">
-                  Meet divorcees, single moms, and sexy cougars looking for a young stud!
+                  Connect with Single, Wild Women in Your City Tonight!
                 </h1>
                 <p className="text-white text-center md:text-left mb-4 md:mb-6">
-                  Enter your email below to create your free, private account.
+                  Enter your email to check availability and connect with naughty locals today.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
