@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     const connection = await connectToDatabase();
     
     let query = 'SELECT id, email, country, created_at FROM emails';
-    const params: any[] = [];
+    const params: (string | number)[] = []; // Fixed: Replaced 'any[]' with specific types
     
     if (startDate || endDate) {
       query += ' WHERE';
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       success: true,
       emails: rows 
     });
-  } catch (error) {
+  } catch (error: unknown) { // Fixed: Added proper type annotation
     console.error('Database error:', error);
     return NextResponse.json(
       { 
