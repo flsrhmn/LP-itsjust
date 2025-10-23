@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -10,7 +11,8 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState<{city: string; count: number} | null>(null);
+  const [ageRange, setAgeRange] = useState('');
+  const [partnerApiResponse, setPartnerApiResponse] = useState<{ [key: string]: any } | null>(null);
 
   // Check if device is mobile and set appropriate background
   useEffect(() => {
@@ -39,8 +41,6 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Basic email validation
     if (
       !email ||
       !['@gmail', '@yahoo', '@outlook', '@hotmail'].some(domain => email.includes(domain))
@@ -53,38 +53,53 @@ export default function Home() {
     setError('');
     
     try {
-      // Simulate a 3-second process (without saving to database)
-      await new Promise(resolve => setTimeout(resolve, 4000));
-      
-      // For testing: Skip the API call and use mock data
-      setSubmitted(true);
-      setUserData({
-        city: 'your city', // Mock city for testing
-        count: Math.floor(Math.random() * 5) + 6 // Random between 6-10
-      });
-      
-      // COMMENTED OUT: The actual API call to save email
-      
-      const response = await fetch('/api/submit-emails', {
+      const arr = ['18 - 25', '26 - 35', '36 - 45', '46 - 54'];
+
+      const randomValue = arr[Math.floor(Math.random() * arr.length)];
+      setAgeRange(randomValue);
+
+      const params = new URLSearchParams(window.location.search);
+      const parse_params = {
+        Source_ID: params.get('Source_ID'),
+        Sourceid: params.get('Sourceid'),
+        pub_id: params.get('pub_id'),
+        ainfo: params.get('ainfo'),
+      };
+
+      const clickid = params.get('clickid');
+
+      const partner_result = await fetch('/api/partner_api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(
+          {
+          answers: [
+            {
+              partner_question_type: "age_range",
+              answer: randomValue,
+            },
+            {
+              partner_question_type: "email",
+              answer: email,
+            }
+          ],
+          params: parse_params,
+          clickid: clickid,
+        }
+        ),
       });
 
-      const data = await response.json();
-      
-      if (response.ok) {
-        setSubmitted(true);
-        setUserData({
-          city: data.city || 'Your City',
-          count: data.count || Math.floor(Math.random() * 5) + 6
-        });
-      } else {
-        setError('Failed to submit. Please try again.');
+      if (!partner_result.ok) {
+        throw new Error(`Response status: ${partner_result.status}`);
       }
+
+      const result = await partner_result.json();
+      setPartnerApiResponse(result.data);
       
+      // For testing: Skip the API call and use mock data
+      setSubmitted(true);
     } catch {
       setError('An error occurred. Please try again.');
     } finally {
@@ -136,7 +151,7 @@ export default function Home() {
                 <p className="text-white">Locating Online Users Near You</p>
                 <p className="text-sm text-white mt-2">This may take a few seconds</p>
               </div>
-            ) : submitted && userData ? (
+            ) : submitted ? (
               // Success screen
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -163,14 +178,27 @@ export default function Home() {
                     <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span className="text-white">We found {userData.count} users online near {userData.city} available.</span>
+                    <span className="text-white">We found {Math.floor(Math.random() * (1000 - 100 + 1)) + 100} users online near {partnerApiResponse?.ip_lookup?.country} available.</span>
                   </div>
                 </div>
                 
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     // Redirect to Google.com for testing
-                    window.location.href = 'https://push.mobirealm.com/click';
+                    console.log('partnerApiResponse => ', partnerApiResponse);
+                    const { ip_lookup, results } = partnerApiResponse;
+                    const result = results;
+                    await clickLastQuestion(ip_lookup, email, ageRange, results, window.location.href);
+
+                    if (result?.results?.datingpost?.response?.url) {
+                      window.location.href = result?.results?.datingpost?.response?.url;
+                    } else if (result?.results?.sevenclicks?.response?.url) {
+                      window.location.href = result?.results?.sevenclicks?.response?.url;
+                    } else if (result?.results?.secondfling?.response?.url) {
+                      window.location.href = result?.results?.secondfling?.response?.url;
+                    } else if (result?.results?.leadbull?.response?.url) {
+                      window.location.href = result?.results?.leadbull?.response?.url;
+                    }
                   }}
                   className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105"
                 >
@@ -232,4 +260,26 @@ export default function Home() {
       </footer>
     </main>
   );
+}
+
+export const clickLastQuestion = async (
+  ip_lookup: { [key: string]: any } | null,
+  email: string,
+  age_range_answer: string,
+  advertiser_results: { [key: string]: any } | null,
+  full_url: string
+) => {
+  return await axios.post(`https://torazzo.net/api/v1/landing-page-generator/action`, {
+      ip_lookup,
+      email,
+      age_range_answer,
+      advertiser_results,
+      full_url,
+      created_at: new Date().toISOString(),
+      action: 'click-last-question',
+  }, {
+      headers: {
+          'landingpage-action': true,
+      }
+  });
 }
