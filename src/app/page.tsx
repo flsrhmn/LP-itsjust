@@ -209,7 +209,12 @@ export default function Home() {
                         getFirstRedirectUrl(updatedResults) ?? getFirstRedirectUrl(currentResults);
 
                       if (redirectUrl) {
-                        window.location.assign(redirectUrl);
+                        const url = redirectUrl;
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.rel = "noopener noreferrer";
+                        document.body.appendChild(a);
+                        a.click();
                       }
                     } catch (err) {
                       console.error("Redirect flow failed:", err);
