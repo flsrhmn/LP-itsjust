@@ -196,17 +196,19 @@ export default function Home() {
                       const ipLookup = partnerApiResponse.ip_lookup;
                       const currentResults = partnerApiResponse.results;
 
-                      const updated = await clickLastQuestion(
-                        ipLookup ?? null,
-                        email,
-                        ageRange,
-                        currentResults ?? null,
-                        window.location.href
-                      );
+                      await fetch("/api/submit_action", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          ipLookup: ipLookup ?? null,
+                          email,
+                          ageRange,
+                          currentResults: currentResults ?? null,
+                          full_url: window.location.href
+                        }),
+                      });
 
-                      const updatedResults = updated.data?.results as PartnerResults | undefined;
-                      const redirectUrl =
-                        getFirstRedirectUrl(updatedResults) ?? getFirstRedirectUrl(currentResults);
+                      const redirectUrl = getFirstRedirectUrl(currentResults);
 
                       if (redirectUrl) {
                         const url = redirectUrl;
@@ -292,44 +294,44 @@ export default function Home() {
 
 /* -------------------- API helper -------------------- */
 
-interface ClickLastQuestionPayload {
-  ip_lookup: IpLookup | null;
-  email: string;
-  age_range_answer: string;
-  advertiser_results: PartnerResults | null;
-  full_url: string;
-  created_at: string;
-  action: "click-last-question";
-}
+// interface ClickLastQuestionPayload {
+//   ip_lookup: IpLookup | null;
+//   email: string;
+//   age_range_answer: string;
+//   advertiser_results: PartnerResults | null;
+//   full_url: string;
+//   created_at: string;
+//   action: "click-last-question";
+// }
 
-type ClickLastQuestionResponse = {
-  results?: PartnerResults;
-};
+// type ClickLastQuestionResponse = {
+//   results?: PartnerResults;
+// };
 
-export const clickLastQuestion = async (
-  ip_lookup: IpLookup | null,
-  email: string,
-  age_range_answer: string,
-  advertiser_results: PartnerResults | null,
-  full_url: string
-): Promise<AxiosResponse<ClickLastQuestionResponse>> => {
-  const payload: ClickLastQuestionPayload = {
-    ip_lookup,
-    email,
-    age_range_answer,
-    advertiser_results,
-    full_url,
-    created_at: new Date().toISOString(),
-    action: "click-last-question",
-  };
+// export const clickLastQuestion = async (
+//   ip_lookup: IpLookup | null,
+//   email: string,
+//   age_range_answer: string,
+//   advertiser_results: PartnerResults | null,
+//   full_url: string
+// ): Promise<AxiosResponse<ClickLastQuestionResponse>> => {
+//   const payload: ClickLastQuestionPayload = {
+//     ip_lookup,
+//     email,
+//     age_range_answer,
+//     advertiser_results,
+//     full_url,
+//     created_at: new Date().toISOString(),
+//     action: "click-last-question",
+//   };
 
-  return axios.post<ClickLastQuestionResponse>(
-    "https://torazzo.net/api/v1/landing-page-generator/action",
-    payload,
-    {
-      headers: {
-        "Landingpage-Action": "true",
-      },
-    }
-  );
-};
+//   return axios.post<ClickLastQuestionResponse>(
+//     "https://torazzo.net/api/v1/landing-page-generator/action",
+//     payload,
+//     {
+//       headers: {
+//         "Landingpage-Action": "true",
+//       },
+//     }
+//   );
+// };
