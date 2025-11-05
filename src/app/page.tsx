@@ -328,7 +328,7 @@ export const clickLastQuestion = async (
     payload,
     {
       headers: {
-        "landingpage-action": "true",
+        "Landingpage-Action": "true",
       },
     }
   );
