@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import axios, { AxiosResponse } from "axios";
 
 type PartnerBucket = { response?: { url?: string } | null };
 type PartnerResults = {
