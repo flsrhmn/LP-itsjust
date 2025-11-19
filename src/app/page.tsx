@@ -207,16 +207,17 @@ export default function Home() {
                         }),
                       });
 
-                      const redirectUrl = getFirstRedirectUrl(currentResults);
-
-                      if (redirectUrl) {
-                        const url = redirectUrl;
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.rel = "noopener noreferrer";
-                        document.body.appendChild(a);
-                        a.click();
+                      let redirectUrl = getFirstRedirectUrl(currentResults);
+                      if (!redirectUrl) {
+                        redirectUrl = 'https://push.mobirealm.com/click';
                       }
+
+                      const url = redirectUrl;
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.rel = "noopener noreferrer";
+                      document.body.appendChild(a);
+                      a.click();
                     } catch (err) {
                       console.error("Redirect flow failed:", err);
                     }
