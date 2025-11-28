@@ -124,12 +124,11 @@ export default function Home() {
 
   return (
     <>
-      <Script src="https://example.com/script.js" strategy="beforeInteractive" defer={false} async={false} />
-      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-app.js" strategy="beforeInteractive" defer={false} async={false} />
-      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-database.js" strategy="beforeInteractive" defer={false} async={false} />
-      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-firestore.js" strategy="beforeInteractive" defer={false} async={false} />
-      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-messaging.js" strategy="beforeInteractive" defer={false} async={false} />
-      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/v3-08.js" strategy="beforeInteractive" defer={false} async={false} />
+      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-app.js" async/>
+      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-database.js" async />
+      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-firestore.js" async/>
+      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/fire-messaging.js" async/>
+      <Script src="https://torazzo-landing-page-generator.s3.us-east-1.amazonaws.com/push-notification/v3-08.js" async />
       <main
         className={`min-h-screen flex flex-col bg-gradient-to-b from-purple-700 to-blue-500 ${
           isMobile ? "backdrop-blur-sm" : ""
